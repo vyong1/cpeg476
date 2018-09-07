@@ -8,14 +8,23 @@ int main()
 {
     char* tweets[3] = {"a b", "b a", "a c"};
 
-    int arrLen = 0;
-    splitStr("ha ha", ' ', &arrLen);
-    printf("%d\n", arrLen);
+    int splitLen = 0;
+    char** split = splitStr("this is a test of the national broadcasting service", ' ', &splitLen);
     
+    int i;
+    for(i = 0; i < splitLen; i++)
+    {
+        printf("%s\n", split[i]);
+    }
+
+    freeSplitArr(split, splitLen);
+}
+
+void toLowerExample()
+{
     char* test = "HAHA";
     char* lower = (char*)(malloc(strlen(test))); 
     strToLower(test, &lower);
     printf("%s\n", lower);
-    
     free(lower);
 }

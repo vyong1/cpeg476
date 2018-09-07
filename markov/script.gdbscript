@@ -1,2 +1,2 @@
 file markov.out
-break strlib.c:28
+break strlib.c:36
