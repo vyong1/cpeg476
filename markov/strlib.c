@@ -1,9 +1,10 @@
 #include "strlib.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
-char** splitStr(char* str, char delimiter, int* lenPtr)
+char** splitStr(char* str, char delimiter, int* arrLenPtr)
 {
     // Count the number of delimiters
     int i;
@@ -11,23 +12,25 @@ char** splitStr(char* str, char delimiter, int* lenPtr)
     {
         if(str[i] == delimiter)
         {
-            (*lenPtr)++;
+            (*arrLenPtr)++;
         }
     }
 
-    printf("%d\n", *lenPtr);
+    // TODO - split the string
+}
+
+void strReplace(char* str, char toReplace)
+{
 
 }
 
-void strToLower(char** strptr)
+void* strToLower(char* str, char** outLower)
 {
-    int len = strlen(*strptr);
+    int len = strlen(str);
 
     int i;
     for(i = 0; i < len; i++)
     {
-        printf("%c\n", tolower((*strptr)[i]));
-
-        // (*strptr)[i] = tolower((*strptr)[i]);
+        (*outLower)[i] = tolower(str[i]);
     }
 }

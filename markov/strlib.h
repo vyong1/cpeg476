@@ -1,2 +1,3 @@
 char** splitStr(char* str, char delimiter, int* lenPtr);
-void strToLower(char** str);
+void strReplace(char* str, char toReplace);
+void* strToLower(char* str, char** outLower);
