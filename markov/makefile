@@ -3,4 +3,4 @@ CFLAGS=-Isrc
 SRCDIR=src
 
 all:
-	$(CC) -g -o markov.out $(SRCDIR)/main.c $(SRCDIR)/strlib.c
+	$(CC) -g -o markov.out $(SRCDIR)/main.c $(SRCDIR)/strlib.c $(SRCDIR)/markovlib.c

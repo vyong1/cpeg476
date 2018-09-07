@@ -6,14 +6,14 @@
 #include <string.h>
 #include <ctype.h>
 
+
 void splitStringExample();
 void toLowerExample();
 
 int main()
 {
-    char* tweets[3] = {"a b", "b a", "a c"};
-
-    
+    int a = countWordFreq("the", "this ice cream is the best of the worst the the the");
+    printf("%d\n", a);
 }
 
 void splitStringExample()

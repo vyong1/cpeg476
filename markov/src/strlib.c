@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 
+
 char** splitStr(char* str, char delimiter, int* arrLenPtr)
 {
     // Count the number of delimiters
