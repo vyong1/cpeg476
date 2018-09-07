@@ -14,6 +14,12 @@ int main()
 {
     int a = countWordFreq("the", "this ice cream is the best of the worst the the the");
     printf("%d\n", a);
+
+    WordFreqNode_t* n3 = newWordFreqNode(NULL, "ice", countWordFreq("ice", "this ice cream is the best of the worst the the the"));
+    WordFreqNode_t* n2 = newWordFreqNode(n3, "best", countWordFreq("best", "this ice cream is the best of the worst the the the"));
+    WordFreqNode_t* n1 = newWordFreqNode(n2, "the", countWordFreq("the", "this ice cream is the best of the worst the the the"));
+
+    printWordFreqList(n1);
 }
 
 void splitStringExample()

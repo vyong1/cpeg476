@@ -14,3 +14,9 @@ void freeSplitArr(char** splitArr, int splitLen);
     Assigns a lowercase version of str to outLower
 */
 void strToLower(char* str, char** outLower);
+
+/*
+    Returns the count of word in str.
+    Case sensitive.
+*/
+int countWordFreq(char* word, char* str);
