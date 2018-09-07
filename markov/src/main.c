@@ -1,5 +1,5 @@
 #include "strlib.h"
-#include "wordPairMap.h"
+#include "markov_structs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
