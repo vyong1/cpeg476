@@ -4,11 +4,19 @@
 #include <string.h>
 #include <ctype.h>
 
+void splitStringExample();
+void toLowerExample();
+
 int main()
 {
     char* tweets[3] = {"a b", "b a", "a c"};
+    splitStringExample();
 
-    int splitLen = 0;
+}
+
+void splitStringExample()
+{
+    int splitLen;
     char** split = splitStr("this is a test of the national broadcasting service", ' ', &splitLen);
     
     int i;

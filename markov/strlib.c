@@ -7,6 +7,7 @@
 char** splitStr(char* str, char delimiter, int* arrLenPtr)
 {
     // Count the number of delimiters
+    (*arrLenPtr) = 0;
     int i;
     for(i = 0; i < strlen(str); i++)
     {
