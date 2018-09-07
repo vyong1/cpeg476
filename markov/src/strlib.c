@@ -66,12 +66,7 @@ void freeSplitArr(char** splitArr, int splitLen)
     free(splitArr);
 }
 
-void strReplace(char* str, char toReplace)
-{
-
-}
-
-void* strToLower(char* str, char** outLower)
+void strToLower(char* str, char** outLower)
 {
     int len = strlen(str);
 

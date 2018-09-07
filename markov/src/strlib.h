@@ -1,4 +1,16 @@
+/*
+    Splits a string by a delimiter. Returns the split
+    array, and assigns the number of elements in that
+    array to lenPtr.
+*/
 char** splitStr(char* str, char delimiter, int* lenPtr);
+
+/*
+    Free a malloc'd split string array
+*/
 void freeSplitArr(char** splitArr, int splitLen);
-void strReplace(char* str, char toReplace);
-void* strToLower(char* str, char** outLower);
+
+/*
+    Assigns a lowercase version of str to outLower
+*/
+void strToLower(char* str, char** outLower);

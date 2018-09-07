@@ -5,7 +5,7 @@
 typedef struct WordFreqLLNode
 {
 
-    WordFreqLLNode_t* next;
+    struct WordFreqLLNode* next;
     char* word;
     int freq;
 
