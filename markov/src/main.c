@@ -1,4 +1,5 @@
 #include "strlib.h"
+#include "wordPairMap.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,8 +11,8 @@ void toLowerExample();
 int main()
 {
     char* tweets[3] = {"a b", "b a", "a c"};
-    splitStringExample();
 
+    
 }
 
 void splitStringExample()
