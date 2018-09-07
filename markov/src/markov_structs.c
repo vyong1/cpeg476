@@ -31,23 +31,23 @@ void printWordFreqList(WordFreqNode_t* head)
 
 void printMarkovNode(MarkovNode_t* head)
 {
-
+    // TODO
 }
 
 // ==== Frees
 void freeWordFreqLLNode(WordFreqNode_t* node)
 {
-
+    // TODO
 }
 
 void freeWordFreqList(WordFreqNode_t* node)
 {
-
+    // TODO
 }
 
 void freeMarkovNode(MarkovNode_t* node)
 {
-
+    // TODO
 }
 
 // ==== Constructors
@@ -64,11 +64,18 @@ WordFreqNode_t* newWordFreqNode(WordFreqNode_t* next, char* word, int freq)
 
 MarkovNode_t* newMarkovNode(char* word, int totalPairs, WordFreqNode_t* head)
 {
-
+    // TODO
 }
 
 // ==== Append
-void append(WordFreqNode_t* head)
+void append(WordFreqNode_t* head, WordFreqNode_t* toAppend)
 {
+    WordFreqNode_t* current = head;
 
+    while(current->next != NULL)
+    {
+        current = current->next;
+    }
+
+    current->next = toAppend;
 }
