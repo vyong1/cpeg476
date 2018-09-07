@@ -1,5 +1,6 @@
 CC=gcc
-CFLAGS=-I.
+CFLAGS=-Isrc
+SRCDIR=src
 
-all: main.c strlib.c
-	$(CC) -g -o markov.out main.c strlib.c
+all:
+	$(CC) -g -o markov.out $(SRCDIR)/main.c $(SRCDIR)/strlib.c
