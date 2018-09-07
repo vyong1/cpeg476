@@ -1,0 +1,9 @@
+1.) String split
+2.) Process string into dict
+3.) Process dict into markov chain
+4.) Generate a string from the markov chain
+
+
+Extra:
+1.) cURL request to twitter API
+2.) JSON parse the API result
