@@ -1,5 +1,6 @@
 #include "strlib.h"
 #include "markov_structs.h"
+#include "markovlib.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
