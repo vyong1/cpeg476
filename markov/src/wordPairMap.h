@@ -2,19 +2,19 @@
     @description    A linked-list node indicating a word and
                     it's frequency in some text
 */
-typedef struct wordFreqLLNode
+typedef struct WordFreqLLNode
 {
     char* word;
     int freq;
-} wordFreqLLNode_t;
+} WordFreqLLNode_t;
 
 /*
     @description    A map from a word to a linked-list
                     of word frequencies of words
                     that follow word
 */
-typedef struct wordPairMap
+typedef struct WordPairMap
 {
     char* word;
-    wordFreqLLNode_t* head;
-} wordPairMap_t;
+    WordFreqLLNode_t* head;
+} WordPairMap_t;
