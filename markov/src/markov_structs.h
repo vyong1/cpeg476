@@ -44,3 +44,4 @@ MarkovNode_t* newMarkovNode(char* word, int totalPairs, WordFreqNode_t* head);
 
 // ==== Append
 void append(WordFreqNode_t* head, WordFreqNode_t* toAppend);
+void appendWord(WordFreqNode_t* head, char* word);

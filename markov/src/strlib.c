@@ -58,6 +58,7 @@ char** splitStr(char* str, char delimiter, int* arrLenPtr)
     return strArr;
 }
 
+
 void freeSplitArr(char** splitArr, int splitLen)
 {
     int i;
@@ -67,6 +68,7 @@ void freeSplitArr(char** splitArr, int splitLen)
     }
     free(splitArr);
 }
+
 
 void strToLower(char* str, char** outLower)
 {
@@ -78,6 +80,7 @@ void strToLower(char* str, char** outLower)
         (*outLower)[i] = tolower(str[i]);
     }
 }
+
 
 int countWordFreq(char* word, char* str)
 {
@@ -113,4 +116,32 @@ int countWordFreq(char* word, char* str)
     }
 
     return count;
+}
+
+
+char** getAllProceedingWords(char* word, int* lenPtr, char** split, int splitLen)
+{
+    // Dynamically allocate memory for a char* array
+    char** proceedingWords = (char**)(malloc(splitLen * sizeof(char*)));
+    for(i = 0; i < len; i++)
+    {
+        proceedingWords[i] = (char*)(malloc(sizeof(char*)));
+    }
+
+    int i;
+    for(i = 0; i < splitLen; i++)
+    {
+        // Word found in the split array
+        if(strcmp(word, split[i]) == 0)
+        {
+            if(i + 1 >= splitLen)
+            {
+                return;
+            }
+            else
+            {
+                // TODO
+            }
+        }
+    }
 }

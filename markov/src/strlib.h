@@ -20,3 +20,9 @@ void strToLower(char* str, char** outLower);
     Case sensitive.
 */
 int countWordFreq(char* word, char* str);
+
+/*
+    Gets all the immediately proceeding words to a word
+    in a split string
+*/
+char** getAllProceedingWords(char* word, int* lenPtr, char** split, int splitLen);

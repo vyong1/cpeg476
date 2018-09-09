@@ -15,14 +15,8 @@ int main()
     int a = countWordFreq("the", "this ice cream is the best of the worst the the the");
     printf("%d\n", a);
     
-    WordFreqNode_t* n1 = newWordFreqNode(NULL, "the", countWordFreq("the", "this ice cream is the best of the worst the the the"));
-    WordFreqNode_t* n2 = newWordFreqNode(NULL, "best", countWordFreq("best", "this ice cream is the best of the worst the the the"));
-    WordFreqNode_t* n3 = newWordFreqNode(NULL, "ice", countWordFreq("ice", "this ice cream is the best of the worst the the the"));
-
-    append(n1, n2);
-    append(n1, n3);
-
-    printWordFreqList(n1);
+    MarkovNode_t* node = newMarkovNode("the", 0, NULL);
+    
 }
 
 void splitStringExample()

@@ -7,3 +7,15 @@
 Extra:
 1.) cURL request to twitter API
 2.) JSON parse the API result
+
+
+======================================
+
+Algorithm:
+
+1.) Given a tweet s, split s into words
+2.) For each word, find the word immediately after.
+    - Each word gets a markov node
+        > Array of MarkovNodes?
+    - Each immediately proceeding word gets added to the word's MarkovNode's list through appendWord()
+3.) 
