@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <time.h>
 
 void splitStringExample();
 void toLowerExample();
@@ -13,11 +13,35 @@ void proceedingWordsExample();
 
 int main()
 {
+    // Seed the random generator with the current time
+    srand(time(0));
+
     char* word = "I";
-    char* sentence = "I came I saw I praise the lord I break the law I break";
-    
+    char* sentence = "hi im todd";
+
     MarkovNode_t* head = generateMarkovMap(sentence);
     printMarkovMap(head);
+
+    int i;
+    int saw = 0;
+    int came = 0;
+    int brk = 0;
+    int praise = 0;
+    for(i = 0; i < 1000; i++)
+    {
+        char* nextWord = getNextWord(head, "I");
+        // printf("%s\n", nextWord);
+
+        if(strcmp(nextWord, "saw") == 0)
+            saw++;
+        else if(strcmp(nextWord, "came") == 0)
+            came++;
+        else if(strcmp(nextWord, "break") == 0)
+            brk++;
+        else if(strcmp(nextWord, "praise") == 0)
+            praise++;
+    }
+    printf("Saw: %d\nCame: %d\nPraise: %d\nBreak: %d\n", saw, came, praise, brk);
 }
 
 void proceedingWordsExample()
