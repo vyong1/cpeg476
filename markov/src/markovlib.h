@@ -1,0 +1,1 @@
+MarkovNode_t* generateMarkovMap();

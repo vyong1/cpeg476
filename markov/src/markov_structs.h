@@ -25,14 +25,15 @@ typedef struct MarkovNode
     // linked list in this struct
     int totalPairs;
     // The head to a linked list of word frequencies
-    WordFreqNode_t* head;
+    WordFreqNode_t* freqHead;
 
 } MarkovNode_t;
 
 // ==== Prints
 void printWordFreqNode(WordFreqNode_t* node);
 void printWordFreqList(WordFreqNode_t* head);
-void printMarkovNode(MarkovNode_t* head);
+void printMarkovNode(MarkovNode_t* node);
+void printMarkovMap(MarkovNode_t* head);
 
 // ==== Frees
 void freeWordFreqLLNode(WordFreqNode_t* node);
@@ -46,4 +47,4 @@ MarkovNode_t* newMarkovNode(MarkovNode_t* next, char* word, int totalPairs, Word
 // ==== Append
 void append(WordFreqNode_t* head, WordFreqNode_t* toAppend);
 void appendWord(WordFreqNode_t* head, char* word);
-void appendMarkovNode(MarkovNode_t* head, char* markovWord);
+void appendMarkovNode(MarkovNode_t** head, char* markovWord);
