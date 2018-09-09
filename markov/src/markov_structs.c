@@ -62,10 +62,11 @@ WordFreqNode_t* newWordFreqNode(WordFreqNode_t* next, char* word, int freq)
     return nodeptr;
 }
 
-MarkovNode_t* newMarkovNode(char* word, int totalPairs, WordFreqNode_t* head)
+MarkovNode_t* newMarkovNode(MarkovNode_t* next, char* word, int totalPairs, WordFreqNode_t* head)
 {
     MarkovNode_t* nodeptr = (MarkovNode_t*)malloc(sizeof(MarkovNode_t));
 
+    nodeptr->next = next;
     nodeptr->word = word;
     nodeptr->totalPairs = totalPairs;
     nodeptr->head = head;
@@ -112,4 +113,31 @@ void appendWord(WordFreqNode_t* head, char* word)
 
     // Word not found -> make a new node
     current->next = newWordFreqNode(NULL, word, 1);
+}
+
+
+void appendMarkovNode(MarkovNode_t* head, char* markovWord)
+{
+    MarkovNode_t* current = head;
+
+    while(current->next != NULL)
+    {
+        // If the word was already found in the "map",
+        // then don't append it as a node
+        if(strcmp(markovWord, current->word) == 0)
+        {
+            return;
+        }
+
+        current = current->next;
+    }
+
+    // Check the last node
+    if(strcmp(markovWord, current->word) == 0)
+    {
+        return;
+    }
+
+    // Word not found -> make a new node
+    current->next = newMarkovNode(NULL, markovWord, 0, NULL);
 }

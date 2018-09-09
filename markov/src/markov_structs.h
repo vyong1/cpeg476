@@ -13,11 +13,12 @@ typedef struct WordFreqNode
 
 
 /*
-    @description    A node in a markov chain
+    @description    A node in a markov linked list map
 */
 typedef struct MarkovNode
 {
 
+    struct MarkovNode* next;
     // The word associated with the node
     char* word;
     // Represents the sum of the frequencies in the
@@ -40,8 +41,9 @@ void freeMarkovNode(MarkovNode_t* node);
 
 // ==== Constructors
 WordFreqNode_t* newWordFreqNode(WordFreqNode_t* next, char* word, int freq);
-MarkovNode_t* newMarkovNode(char* word, int totalPairs, WordFreqNode_t* head);
+MarkovNode_t* newMarkovNode(MarkovNode_t* next, char* word, int totalPairs, WordFreqNode_t* head);
 
 // ==== Append
 void append(WordFreqNode_t* head, WordFreqNode_t* toAppend);
 void appendWord(WordFreqNode_t* head, char* word);
+void appendMarkovNode(MarkovNode_t* head, char* markovWord);
