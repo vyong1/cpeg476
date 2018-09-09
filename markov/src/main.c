@@ -14,7 +14,7 @@ void proceedingWordsExample();
 int main()
 {
     char* word = "I";
-    char* sentence = "I praise the lord I break the law I take what's mine I take some more";
+    char* sentence = "I came I saw I praise the lord I break the law I break";
     
     MarkovNode_t* head = generateMarkovMap(sentence);
     printMarkovMap(head);

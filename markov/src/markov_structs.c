@@ -14,7 +14,7 @@ void printWordFreqList(WordFreqNode_t* head)
 {
     if(head == NULL)
     {
-        printf("The freq list is empty.\n");
+        printf("Empty\n");
         return;
     }
 
@@ -31,11 +31,13 @@ void printWordFreqList(WordFreqNode_t* head)
 
 void printMarkovNode(MarkovNode_t* node)
 {
-    printf("--Markov Node:\n");
+    printf("Markov Node\n");
+    printf("{\n");
     printf("\tWord:     %s\n", node->word);
     printf("\tPairs:    %d\n", node->totalPairs);
-    printf("\t");
+    printf("\tFreqList: ");
     printWordFreqList(node->freqHead);
+    printf("}\n");
 }
 
 void printMarkovMap(MarkovNode_t* head)
@@ -111,9 +113,15 @@ void append(WordFreqNode_t* head, WordFreqNode_t* toAppend)
 }
 
 // This special append makes a new node if the word isn't in the list
-void appendWord(WordFreqNode_t* head, char* word)
+void appendWord(WordFreqNode_t** head, char* word)
 {
-    WordFreqNode_t* current = head;
+    if((*head) == NULL)
+    {
+        (*head) = newWordFreqNode(NULL, word, 1);
+        return;
+    }
+
+    WordFreqNode_t* current = *head;
 
     while(current->next != NULL)
     {

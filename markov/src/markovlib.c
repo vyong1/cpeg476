@@ -8,10 +8,10 @@
 #include <stdbool.h>
 
 
-MarkovNode_t* generateMarkovMap(char* str)
+MarkovNode_t* generateMarkovMap(char* sentence)
 {
     int splitLen;
-    char** split = splitStr(str, ' ', &splitLen);
+    char** split = splitStr(sentence, ' ', &splitLen);
 
     MarkovNode_t* head = NULL;
 
@@ -19,6 +19,24 @@ MarkovNode_t* generateMarkovMap(char* str)
     for(i = 0; i < splitLen; i++)
     {
         appendMarkovNode(&head, split[i]);
+    }
+
+    // Measure all the frequencies
+    MarkovNode_t* current = head;
+
+    while(current != NULL)
+    {
+        int proceedingLen;
+        char** proceedingWords = 
+            getAllProceedingWords(current->word, &proceedingLen, sentence);
+
+        for(i = 0; i < proceedingLen; i++)
+        {
+            appendWord(&(current->freqHead), proceedingWords[i]);
+        }
+        
+        current->totalPairs = proceedingLen;
+        current = current->next;
     }
 
     return head;
