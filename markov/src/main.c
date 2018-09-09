@@ -13,35 +13,156 @@ void proceedingWordsExample();
 
 int main()
 {
+    // Select the number of words to generate
+    int numberOfWords = 500;
+
     // Seed the random generator with the current time
     srand(time(0));
 
     char* word = "I";
-    char* sentence = "hi im todd";
-
+    char* sentence = "Bee Movie Script  \
+According to all known laws \
+of aviation, \
+there is no way a bee \
+should be able to fly.  \
+Its wings are too small to get \
+its fat little body off the ground. \
+The bee, of course, flies anyway  \
+because bees don't care \
+what humans think is impossible.  \
+Yellow, black. Yellow, black. \
+Yellow, black. Yellow, black. \
+Ooh, black and yellow! \
+Let's shake it up a little.  \
+Barry! Breakfast is ready!  \
+Ooming! \
+Hang on a second.   \
+Hello? \
+- Barry? \
+- Adam?   \
+- Oan you believe this is happening? \
+- I can't. I'll pick you up.  \
+Looking sharp. \
+Use the stairs. Your father \
+paid good money for those. \
+Sorry. I'm excited.  \
+Here's the graduate. \
+We're very proud of you, son.  \
+A perfect report card, all B's. \
+Very proud. \
+Ma! I got a thing going here. \
+- You got lint on your fuzz. \
+- Ow! That's me!  \
+- Wave to us! We'll be in row 118,000. \
+- Bye! \
+Barry, I told you, \
+stop flying in the house! \
+- Hey, Adam. \
+- Hey, Barry. \
+- Is that fuzz gel? \
+- A little. Special day, graduation. \
+Never thought I'd make it.  \
+Three days grade school, \
+three days high school.  \
+Those were awkward.   \
+Three days college. I'm glad I took \
+a day and hitchhiked around the hive. \
+You did come back different.   \
+- Hi, Barry. \
+- Artie, growing a mustache? Looks good.  \
+-Hear about Frankie? \
+- Yeah. \
+- You going to the funeral? \
+- No, I'm not going.  \
+Everybody knows, \
+sting someone, you die.   \
+Don't waste it on a squirrel. \
+Such a hothead. \
+I guess he could have \
+just gotten out of the way.  \
+I love this incorporating \
+an amusement park into our day. \
+That's why we don't need vacations.  \
+Boy, quite a bit of pomp... \
+under the circumstances.  \
+- Well, Adam, today we are men. \
+- We are!   \
+- Bee-men. \
+- Amen!   \
+Hallelujah!  \
+Students, faculty, distinguished bees, \
+please welcome Dean Buzzwell. \
+Welcome, New Hive Oity \
+graduating class of...  \
+...9:15. \
+That concludes our ceremonies. \
+And begins your career \
+at Honex Industries! \
+Will we pick ourjob today?  \
+I heard it's just orientation.  \
+Heads up! Here we go. \
+Keep your hands and antennas \
+inside the tram at all times. \
+- Wonder what it'll be like? \
+- A little scary. \
+Welcome to Honex, \
+a division of Honesco \
+and a part of the Hexagon Group. \
+This is it! \
+Wow. \
+Wow. \
+We know that you, as a bee, \
+have worked your whole life \
+to get to the point where you \
+can work for your whole life. \
+Honey begins when our valiant Pollen \
+Jocks bring the nectar to the hive.  \
+Our top-secret formula \
+is automatically color-corrected, \
+scent-adjusted and bubble-contoured \
+into this soothing sweet syrup \
+with its distinctive \
+golden glow you know as... \
+Honey! \
+- That girl was hot. \
+- She's my cousin! \
+- She is? \
+- Yes, we're all cousins. \
+- Right. You're right. \
+- At Honex, we constantly strive \
+to improve every aspect \
+of bee existence. \
+These bees are stress-testing \
+a new helmet technology.  \
+- What do you think he makes? \
+- Not enough. \
+Here we have our latest advancement, \
+the Krelman.";
     MarkovNode_t* head = generateMarkovMap(sentence);
-    printMarkovMap(head);
 
+    // Dynamically allocate memory for a char* array
+    char** outputWords = (char**)(malloc(numberOfWords * sizeof(char*)));
     int i;
-    int saw = 0;
-    int came = 0;
-    int brk = 0;
-    int praise = 0;
-    for(i = 0; i < 1000; i++)
+    for(i = 0; i < numberOfWords; i++)
     {
-        char* nextWord = getNextWord(head, "I");
-        // printf("%s\n", nextWord);
-
-        if(strcmp(nextWord, "saw") == 0)
-            saw++;
-        else if(strcmp(nextWord, "came") == 0)
-            came++;
-        else if(strcmp(nextWord, "break") == 0)
-            brk++;
-        else if(strcmp(nextWord, "praise") == 0)
-            praise++;
+        outputWords[i] = (char*)(malloc(sizeof(char*)));
     }
-    printf("Saw: %d\nCame: %d\nPraise: %d\nBreak: %d\n", saw, came, praise, brk);
+
+    // Seed the array with some introductory data
+    outputWords[0] = "Bee";
+
+    for(i = 1; i < numberOfWords; i++)
+    {
+        char* nextword = getNextWord(head, outputWords[i-1]);
+        strcpy(outputWords[i], nextword);
+    }
+
+    for(i = 0; i < numberOfWords; i++)
+    {
+        printf("%s ", outputWords[i]);
+        fflush(stdout);
+    }
+    printf("\n");
 }
 
 void proceedingWordsExample()

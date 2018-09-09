@@ -64,6 +64,18 @@ char* getNextWord(MarkovNode_t* head, char* word)
         return "Error - word not found";
     }
 
+    if(current->totalPairs == 0)
+    {
+        // TODO - what to do in this situation?
+        // This is just a cop-out solution
+        current = head;
+        while(current->totalPairs == 0)
+        {
+            current = current->next;
+        }
+        return current->word;
+    }
+
     // Extract the word based on the randomly
     // generated number and the frequency
     int selected = rand()%(current->totalPairs) + 1;
