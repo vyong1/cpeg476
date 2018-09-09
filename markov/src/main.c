@@ -9,8 +9,16 @@
 
 void splitStringExample();
 void toLowerExample();
+void proceedingWordsExample();
 
 int main()
+{
+    char* word = "I";
+    char* sentence = "I praise the lord I break the law I take what's mine I take some more";
+    
+}
+
+void proceedingWordsExample()
 {
     char* word = "I";
     char* sentence = "I praise the lord I break the law I take what's mine I take some more";
