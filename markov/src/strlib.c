@@ -119,29 +119,49 @@ int countWordFreq(char* word, char* str)
 }
 
 
-char** getAllProceedingWords(char* word, int* lenPtr, char** split, int splitLen)
+char** getAllProceedingWords(char* word, int* lenPtr, char* sentence)
 {
+    (*lenPtr) = 0;
+
+    int splitLen;
+    char** split = splitStr(sentence, ' ', &splitLen);
+
     // Dynamically allocate memory for a char* array
+    int i;
     char** proceedingWords = (char**)(malloc(splitLen * sizeof(char*)));
-    for(i = 0; i < len; i++)
+    for(i = 0; i < splitLen; i++)
     {
         proceedingWords[i] = (char*)(malloc(sizeof(char*)));
     }
 
-    int i;
+    int j = 0;
     for(i = 0; i < splitLen; i++)
     {
         // Word found in the split array
         if(strcmp(word, split[i]) == 0)
         {
-            if(i + 1 >= splitLen)
+            // If not the last word
+            if(!(i + 1 >= splitLen))
             {
-                return;
-            }
-            else
-            {
-                // TODO
+                strcpy(proceedingWords[j], split[i + 1]);
+                (*lenPtr)++;
+                j++;
             }
         }
     }
+
+    // Free the split string
+    for(i = 0; i < splitLen; i++)
+    {
+        free(split[i]);
+    }
+    free(split);
+
+    // Free unused slots in proceedingWords
+    for(i = j; i < splitLen; i++)
+    {
+        free(proceedingWords[i]);
+    }
+
+    return proceedingWords;
 }

@@ -12,11 +12,20 @@ void toLowerExample();
 
 int main()
 {
-    int a = countWordFreq("the", "this ice cream is the best of the worst the the the");
-    printf("%d\n", a);
+    char* word = "I";
+    char* sentence = "I praise the lord I break the law I take what's mine I take some more";
     
-    MarkovNode_t* node = newMarkovNode("the", 0, NULL);
-    
+    int proceedingLen;
+    char** proceeding = getAllProceedingWords(word, &proceedingLen, sentence);
+
+    // Print and free
+    int i;
+    for(i = 0; i < proceedingLen; i++)
+    {
+        printf("%s\n", proceeding[i]);
+        free(proceeding[i]);
+    }
+    free(proceeding);
 }
 
 void splitStringExample()
