@@ -3,6 +3,7 @@
 #include <iterator>
 #include <vector>
 #include <string>
+#include <unistd.h>
 
 using namespace std;
 
@@ -34,7 +35,8 @@ class MarkovMap : public unordered_map<string, unordered_map<string, int>>
         {
             auto it = (*this).begin();
             advance(it, rand()%(*this).size());
-            return it->first;
+            string word = it->first;
+            return word.substr(0, word.find(" "));
         }
 
         string getNextWord(string currentWord)
@@ -70,19 +72,31 @@ class MarkovMap : public unordered_map<string, unordered_map<string, int>>
             return proceedingMap.end()->first;
         }
 
-        string generateTweet(int charLimit)
+        string generateTweet(int charLimit, int order)
         {
             vector<string> tweetWords;
             string s = "";
 
             /* Generate some seed data */
-            tweetWords.push_back((*this).getRandomWord());
+            for(int i = 0; i < order + 1; i++)
+            {
+                tweetWords.push_back((*this).getRandomWord());
+                s = s + tweetWords[i] + " ";
+            }
 
             /* Build up the tweet */
-            int i = 0;
+            int i = order;
             while((s + tweetWords[i] + " ").length() < charLimit)
             {
-                tweetWords.push_back((*this).getNextWord(tweetWords[i]));
+                string key = "";
+                for(int j = i - order; j < i; j++)
+                {
+                    key = key + tweetWords[j] + " ";
+                }
+                key = key.substr(0, key.length() - 1);
+
+                tweetWords.push_back((*this).getNextWord(key));
+
                 s = s + tweetWords[i] + " ";
                 i++;
             }

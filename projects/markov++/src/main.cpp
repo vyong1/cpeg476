@@ -18,13 +18,15 @@ int main(int argc, char** argv)
         return 1;
     }
 
+    string filename = argv[1];
+    int order = stoi(argv[2]);
+
     srand(time(NULL));
 
-    /* Assume that argv[1] is a filename, and read it into a markov map */
-    MarkovMap markovMap = generateMarkovMap(argv[1], stoi(argv[2]));
+    MarkovMap markovMap = generateMarkovMap(filename, order);
 
     // markovMap.print();
 
-    string tweet = markovMap.generateTweet(TWEET_CHAR_LIMIT);
+    string tweet = markovMap.generateTweet(TWEET_CHAR_LIMIT, order);
     cout << tweet << endl;
 }
