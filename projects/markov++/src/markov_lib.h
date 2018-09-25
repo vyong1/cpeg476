@@ -1,1 +1,1 @@
-MarkovMap generateMarkovMap(string filename);
+MarkovMap generateMarkovMap(string filename, int order);
