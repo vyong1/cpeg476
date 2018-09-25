@@ -1,1 +1,1 @@
-void myRead(string filename);
+MarkovMap generateMarkovMap(string filename);

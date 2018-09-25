@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <iterator>
+#include <vector>
 #include <string>
 
 using namespace std;
@@ -14,35 +15,74 @@ Maps from a word to the proceeding words and their frequency
 class MarkovMap : public unordered_map<string, unordered_map<string, int>>
 {
     public:
-        void add(string word, string proceedingWord)
+        void print()
         {
+            for( auto it = (*this).begin(); it != (*this).end(); it++ )
+            {
+                cout << "{" << it->first << "} => ";
+                unordered_map<string, int> proceedingMap = (it->second);
 
+                for( auto it2 = proceedingMap.begin(); it2 != proceedingMap.end(); it2++ )
+                {
+                    cout << "[" << it2->first << " | " << it2->second << "]->";
+                }
+                cout << endl;
+            }
         }
 
-        bool containsKey(string key)
+        string getRandomWord()
         {
-            if (this->find(key) == this->end())
-            {
-                return false;
-            }
-
-            return true;
+            auto it = (*this).begin();
+            advance(it, rand()%(*this).size());
+            return it->first;
         }
 
-        bool containsKey(string word, string proceedingWord)
+        string getNextWord(string currentWord)
         {
-            /* Check if the word exists */
-            if (this->containsKey(word) == false)
+            int total = 0;
+            unordered_map<string, int> proceedingMap = (*this)[currentWord];
+
+            for (auto it = proceedingMap.begin(); it != proceedingMap.end(); it++)
             {
-                return false;
+                total = total + it->second;
             }
 
-            /* Check if the proceeding word exists */
-            if ((*this)[word].find(proceedingWord) == (*this)[word].end())
+            // Return a random word if there are no instances of any proceeding words
+            if(total == 0)
             {
-                return false;
+                return (*this).getRandomWord();
             }
 
-            return true;
+            int selected = rand()%(total) + 1;
+            int freqSum = 0;
+
+            for (auto it = proceedingMap.begin(); it != proceedingMap.end(); it++)
+            {
+                freqSum = freqSum + it->second;
+
+                if(selected == freqSum || freqSum > selected)
+                {
+                    return it->first;
+                }
+            }
+            
+            // At the last node, assume it's the word chosen
+            return proceedingMap.end()->first;
+        }
+
+        string generateTweet()
+        {
+            vector<string> tweetWords;
+            string s = "";
+
+            /* Generate some seed data */
+            tweetWords.push_back((*this).getRandomWord());
+
+            for(int i = 0; i < 80; i++)
+            {
+                tweetWords.push_back((*this).getNextWord(tweetWords[i]));
+                s = s + tweetWords[i] + " ";
+            }
+            return s;
         }
 };
