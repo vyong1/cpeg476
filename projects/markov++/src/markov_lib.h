@@ -1,0 +1,1 @@
+void myRead(string filename);
