@@ -70,7 +70,7 @@ class MarkovMap : public unordered_map<string, unordered_map<string, int>>
             return proceedingMap.end()->first;
         }
 
-        string generateTweet()
+        string generateTweet(int charLimit)
         {
             vector<string> tweetWords;
             string s = "";
@@ -78,10 +78,13 @@ class MarkovMap : public unordered_map<string, unordered_map<string, int>>
             /* Generate some seed data */
             tweetWords.push_back((*this).getRandomWord());
 
-            for(int i = 0; i < 80; i++)
+            /* Build up the tweet */
+            int i = 0;
+            while((s + tweetWords[i] + " ").length() < charLimit)
             {
                 tweetWords.push_back((*this).getNextWord(tweetWords[i]));
                 s = s + tweetWords[i] + " ";
+                i++;
             }
             return s;
         }
