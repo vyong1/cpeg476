@@ -1,0 +1,8 @@
+Registers:
+    $rip = next isntr pointer
+    $rsp = stack top pointer
+    $rbp = stack bottom pointer
+    $rax = retval
+    $rdi, $rsi, $rdx, $r10, $r9, $r8 = args
+
+Also, see 2017-SIT-R*/re1/questions.txt

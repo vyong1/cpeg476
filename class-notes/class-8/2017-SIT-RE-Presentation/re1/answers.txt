@@ -1,0 +1,10 @@
+A1) 0x400546
+	The address of a function's first instruction (the prologue) is "where" the function is at in memory. You can also see this using `:? main`, or using `:afl` after using `:aaa`.
+
+A2) The base pointer's value, 0x400560, is pushed onto the stack, at address 0x7fffffffdfa0.
+
+A3) 8 bytes. The old rsp value was 0x7fffffffdfa8, and the current one is 0x7fffffffdfa0.
+
+A4) After this instruction, `rsp` and `rbp` are equal! meaning the stack is 0 bytes!  Looking at the source code, the main function contains no local data, therefore, nothing needs to be stored in main's local stack frame.
+
+A5) It is a memory address. The string "Hello, world!" is 13 letters long, which is too many bytes for a single register (8 bytes) to hold.  Thus, a memory address (8 bytes) which points to the string is stored instead.
