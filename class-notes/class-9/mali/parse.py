@@ -26,8 +26,6 @@ p = Popen("nc ec2-18-216-96-228.us-east-2.compute.amazonaws.com 8000", stdout=PI
 while(p.poll() is None):
     country = p.stdout.readline().replace("What is the capital of ", "").replace("?\n", "")
     capital = country_capital[country] + '\n'
-    # output = p.communicate(input=capital)[0]
-    # print(output)
+    output = p.communicate(input=capital)[0]
+    print(output)
 
-
-# print(p.stdout.readline())
