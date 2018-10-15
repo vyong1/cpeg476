@@ -1,0 +1,6 @@
+Pick ONE way of handling strings in C
+
+1. Caller Allocates the memory and Caller Frees the memory
+2. Subroutine Allocates the memory and Caller Frees the memory
+3. Subroutine Allocates the memory and Subroutine Frees the memory
+

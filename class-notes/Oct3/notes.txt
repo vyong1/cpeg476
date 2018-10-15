@@ -1,0 +1,8 @@
+These are heap smashing attacks
+
+Heaps are linked lists.
+They have to keep track of stuff that follows and
+stuff the precedes.
+
+Memory in the heap is scattered... memory in the heap
+might be surrounded by other memory.

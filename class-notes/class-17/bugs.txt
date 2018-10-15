@@ -1,0 +1,33 @@
+1a.) LUNA.cpp
+		- Improper control flow due to lack of braces
+		  if(IsLunaMenuStyle())
+1b.) notepadapp.cpp
+		- The size parameter in memset uses bytes,
+		  the size of the array should be 200 bytes
+		  because integers are 4 bytes, but memset
+		  is only setting 50/200 of the bytes.
+1c.) EMULE.cpp
+		- *pceltFetched should be in parenthesees,
+		  otherwise, it is incrementing the pointer
+1d.) cmake.cpp
+		- sizeof(doserrors) returns the size in bytes
+		  of the array - meaning that the for loop will
+		  go on well past the bounds of the array
+
+		  
+		  
+		  
+2.a) v1.cpp
+		- If data is negative, then dest[data] will
+		  be an illegal access
+2.b) v2.cpp
+		- The length of cin can be more than CHAR_BUFFER_SIZE,
+		  which will cause a buffer overflow
+3.c) v3.cpp
+		- In the case where realloc returns NULL, the memory
+		  is still allocated. In v3.cpp, this memory is never
+		  freed in the case that realloc returns NULL, so the
+		  program essentially runs out of memory.
+3.d) v4.cpp
+		- Violates STR34-C: Cast characters to unsigned char 
+		  before converting to larger integer sizes
