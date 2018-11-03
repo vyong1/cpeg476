@@ -35,7 +35,6 @@ int main(int argc, char **argv)
 
 int parse_args(int argc, char** argv, string* shape, string* color, string* output_image)
 {
-    // Parse arguments
     if (argc > 1 && strcmp(argv[1], "-h") == 0)
     {
         print_usage();
@@ -51,7 +50,7 @@ int parse_args(int argc, char** argv, string* shape, string* color, string* outp
     for (int i = 1; i < argc; i++)
     {
         string arg(argv[i]);
-        if (arg == "-c")
+        if (arg == "-c" || arg == "--color")
         {
             if (i + 1 < argc)
             {
@@ -65,7 +64,7 @@ int parse_args(int argc, char** argv, string* shape, string* color, string* outp
 
             i++;
         }
-        else if (arg == "-s")
+        else if (arg == "-s" || arg == "--shape")
         {
             if (i + 1 < argc)
             {
@@ -121,7 +120,7 @@ Scalar parse_color_string(string color_string)
     else // Parse as hex
     {
         int r, g, b;
-        sscanf(color_string.c_str(), "%02x%02x%02x", &b, &r, &g);
+        sscanf(color_string.c_str(), "%02x%02x%02x", &b, &g, &r);
         return Scalar(r, g, b);
     }
 }
