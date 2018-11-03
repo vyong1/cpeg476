@@ -1,6 +1,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include <iostream>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,17 +13,18 @@ void print_usage();
 Scalar parse_color_string(string color_string);
 void identify_and_draw_contours(Mat img, Scalar contour_color, string shape);
 vector<int> get_contours_to_draw(vector<vector<Point>> contours, string shape);
+int distance(Point p1, Point p2);
 
 int main(int argc, char **argv)
 {
     // Parse arguments
-    if(argc > 1 && strcmp(argv[1], "-h") == 0)
+    if (argc > 1 && strcmp(argv[1], "-h") == 0)
     {
         print_usage();
         return 0;
     }
 
-    if(argc != 7)
+    if (argc != 7)
     {
         cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
         return 0;
@@ -32,12 +34,12 @@ int main(int argc, char **argv)
     string color;
     string output_image;
 
-    for(int i = 1; i < argc; i++)
+    for (int i = 1; i < argc; i++)
     {
         string arg(argv[i]);
-        if(arg == "-c")
+        if (arg == "-c")
         {
-            if(i + 1 < argc)
+            if (i + 1 < argc)
             {
                 color = argv[i + 1];
             }
@@ -49,9 +51,9 @@ int main(int argc, char **argv)
 
             i++;
         }
-        else if(arg == "-s")
+        else if (arg == "-s")
         {
-            if(i + 1 < argc)
+            if (i + 1 < argc)
             {
                 shape = argv[i + 1];
             }
@@ -63,9 +65,9 @@ int main(int argc, char **argv)
 
             i++;
         }
-        else if(arg == "-o")
+        else if (arg == "-o")
         {
-            if(i + 1 < argc)
+            if (i + 1 < argc)
             {
                 output_image = argv[i + 1];
             }
@@ -98,22 +100,22 @@ int main(int argc, char **argv)
 Scalar parse_color_string(string color_string)
 {
     // Try pre-defined colors first
-    if(color_string == "red")
-        return Scalar(255, 0, 0);
-    else if(color_string == "blue")
-        return Scalar(0, 255, 0);
-    else if(color_string == "green")
+    if (color_string == "red")
         return Scalar(0, 0, 255);
-    else if(color_string == "white")
-        return Scalar(0, 0, 0);
-    else if(color_string == "black")
+    else if (color_string == "blue")
+        return Scalar(255, 0, 0);
+    else if (color_string == "green")
+        return Scalar(0, 255, 0);
+    else if (color_string == "white")
         return Scalar(255, 255, 255);
-    else if(color_string == "grey")
+    else if (color_string == "black")
+        return Scalar(0, 0, 0);
+    else if (color_string == "grey")
         return Scalar(127, 127, 127);
     else // Parse as hex
     {
         int r, g, b;
-        sscanf(color_string.c_str(), "%02x%02x%02x", &r, &g, &b);
+        sscanf(color_string.c_str(), "%02x%02x%02x", &b, &r, &g);
         return Scalar(r, g, b);
     }
 }
@@ -143,7 +145,7 @@ void identify_and_draw_contours(Mat img, Scalar contour_color, string shape)
     Canny(img, canny_output, thresh, thresh * 2, 3);
     // Find contours
     findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
-    
+
     vector<int> contours_to_draw = get_contours_to_draw(contours, shape);
 
     Mat output_img = img.clone();
@@ -151,21 +153,6 @@ void identify_and_draw_contours(Mat img, Scalar contour_color, string shape)
     {
         drawContours(output_img, contours, contours_to_draw[i], contour_color, 2, 8, hierarchy, 0, Point());
     }
-
-    // Draw contours
-    /*
-    Mat drawing = img.clone();
-    for (unsigned int i = 0; i < contours.size(); i++)
-    {
-        drawContours(drawing, contours, i, contourColor, 2, 8, hierarchy, 0, Point());
-    }
-
-    // Show in a window
-    namedWindow("Contours", CV_WINDOW_AUTOSIZE);
-    imshow("Contours", drawing);
-
-    
-    */
 
     // Write output to image
     imwrite("myimage.png", output_img);
@@ -179,42 +166,51 @@ vector<int> get_contours_to_draw(vector<vector<Point>> contours, string shape)
     for (unsigned int i = 0; i < contours.size(); i++)
     {
         vector<Point> contour = contours[i];
-        vector<Point> curve;
+        vector<Point> approx;
         float epsilon = 0.01 * arcLength(contour, true); // 1% of contour perimeter
 
-        approxPolyDP(contour, curve, epsilon, true);
+        approxPolyDP(contour, approx, epsilon, true);
 
-        int numberOfCorners = curve.size();
+        int numberOfCorners = approx.size();
 
-        switch(numberOfCorners)
+        switch (numberOfCorners)
         {
             case 3:
-                if(shape == "triangle")
+                if (shape == "triangle")
                 {
                     contoursToDraw.push_back(i);
                 }
                 break;
             case 4:
-                // TODO Parse square first
-                if(shape == "rectangle" || shape == "square")
+                if (shape == "square")
+                {
+                    // Check if height = width (the condition for a square)
+                    Rect br = boundingRect(approx);
+                    if(br.size().height == br.size().width)
+                    {
+                        contoursToDraw.push_back(i);
+                    }
+                }
+                else
                 {
                     contoursToDraw.push_back(i);
                 }
+                
                 break;
             case 5:
-                if(shape == "pentagon")
+                if (shape == "pentagon")
                 {
                     contoursToDraw.push_back(i);
                 }
                 break;
             case 6:
-                if(shape == "hexagon")
+                if (shape == "hexagon")
                 {
                     contoursToDraw.push_back(i);
                 }
                 break;
             case 16:
-                if(shape == "circle")
+                if (shape == "circle")
                 {
                     contoursToDraw.push_back(i);
                 }
@@ -225,4 +221,9 @@ vector<int> get_contours_to_draw(vector<vector<Point>> contours, string shape)
     }
 
     return contoursToDraw;
+}
+
+int distance(Point p1, Point p2)
+{
+    return (int)(sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2)));
 }
