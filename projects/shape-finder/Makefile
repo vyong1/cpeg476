@@ -1,10 +1,10 @@
 .PHONY: all clean
-all: view_image
+all: contours
 clean:
-	rm -f *.o view_image
+	rm -f *.o contours
 
-view_image.o: view_image.cpp
-	g++ -Wall -g -c view_image.cpp -o view_image.o
+contours.o: contours.cpp
+	g++ -Wall -g -c contours.cpp -o contours.o
 
-view_image: view_image.o
-	g++ view_image.o -o view_image -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_imgcodecs
+contours: contours.o
+	g++ contours.o -o contours -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_imgcodecs
