@@ -5,85 +5,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "contours.h"
 
 using namespace cv;
 using namespace std;
 
-void print_usage();
-Scalar parse_color_string(string color_string);
-void identify_and_draw_contours(Mat img, Scalar contour_color, string shape);
-vector<int> get_contours_to_draw(vector<vector<Point>> contours, string shape);
-int distance(Point p1, Point p2);
-
 int main(int argc, char **argv)
 {
-    // Parse arguments
-    if (argc > 1 && strcmp(argv[1], "-h") == 0)
-    {
-        print_usage();
-        return 0;
-    }
-
-    if (argc != 7)
-    {
-        cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
-        return 0;
-    }
-
     string shape;
     string color;
     string output_image;
 
-    for (int i = 1; i < argc; i++)
+    if(parse_args(argc, argv, &shape, &color, &output_image) == -1)
     {
-        string arg(argv[i]);
-        if (arg == "-c")
-        {
-            if (i + 1 < argc)
-            {
-                color = argv[i + 1];
-            }
-            else
-            {
-                cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
-                return 0;
-            }
-
-            i++;
-        }
-        else if (arg == "-s")
-        {
-            if (i + 1 < argc)
-            {
-                shape = argv[i + 1];
-            }
-            else
-            {
-                cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
-                return 0;
-            }
-
-            i++;
-        }
-        else if (arg == "-o")
-        {
-            if (i + 1 < argc)
-            {
-                output_image = argv[i + 1];
-            }
-            else
-            {
-                cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
-                return 0;
-            }
-
-            i++;
-        }
-        else
-        {
-            cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
-            return 0;
-        }
+        // Exit if args were parsed incorrectly
+        return 0;
     }
 
     Scalar contour_color = parse_color_string(color);
@@ -95,6 +31,76 @@ int main(int argc, char **argv)
 
     waitKey(0);
     return (0);
+}
+
+int parse_args(int argc, char** argv, string* shape, string* color, string* output_image)
+{
+    // Parse arguments
+    if (argc > 1 && strcmp(argv[1], "-h") == 0)
+    {
+        print_usage();
+        return -1;
+    }
+
+    if (argc != 7)
+    {
+        cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
+        return -1;
+    }
+
+    for (int i = 1; i < argc; i++)
+    {
+        string arg(argv[i]);
+        if (arg == "-c")
+        {
+            if (i + 1 < argc)
+            {
+                *color = argv[i + 1];
+            }
+            else
+            {
+                cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
+                return -1;
+            }
+
+            i++;
+        }
+        else if (arg == "-s")
+        {
+            if (i + 1 < argc)
+            {
+                *shape = argv[i + 1];
+            }
+            else
+            {
+                cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
+                return -1;
+            }
+
+            i++;
+        }
+        else if (arg == "-o")
+        {
+            if (i + 1 < argc)
+            {
+                *output_image = argv[i + 1];
+            }
+            else
+            {
+                cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
+                return -1;
+            }
+
+            i++;
+        }
+        else
+        {
+            cout << "Incorrect usage. Use the '-h' flag for more information" << endl;
+            return -1;
+        }
+    }
+
+    return 1;
 }
 
 Scalar parse_color_string(string color_string)
@@ -139,15 +145,13 @@ void identify_and_draw_contours(Mat img, Scalar contour_color, string shape)
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
 
-    // Scalar contourColor = Scalar(255, 0, 0); // RGB
-
-    // Detect edges using canny
+    // Detect edges with CAnny algorithm
     Canny(img, canny_output, thresh, thresh * 2, 3);
     // Find contours
     findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
 
+    // Draw contours based on the requested shape
     vector<int> contours_to_draw = get_contours_to_draw(contours, shape);
-
     Mat output_img = img.clone();
     for (unsigned int i = 0; i < contours_to_draw.size(); i++)
     {
@@ -162,15 +166,13 @@ vector<int> get_contours_to_draw(vector<vector<Point>> contours, string shape)
 {
     vector<int> contoursToDraw;
 
-    // Find contours as polygons
     for (unsigned int i = 0; i < contours.size(); i++)
     {
+        // Approximate contour as a polygon
         vector<Point> contour = contours[i];
         vector<Point> approx;
         float epsilon = 0.01 * arcLength(contour, true); // 1% of contour perimeter
-
         approxPolyDP(contour, approx, epsilon, true);
-
         int numberOfCorners = approx.size();
 
         switch (numberOfCorners)
@@ -191,7 +193,7 @@ vector<int> get_contours_to_draw(vector<vector<Point>> contours, string shape)
                         contoursToDraw.push_back(i);
                     }
                 }
-                else
+                else if (shape == "rectangle")
                 {
                     contoursToDraw.push_back(i);
                 }
@@ -221,9 +223,4 @@ vector<int> get_contours_to_draw(vector<vector<Point>> contours, string shape)
     }
 
     return contoursToDraw;
-}
-
-int distance(Point p1, Point p2)
-{
-    return (int)(sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2)));
 }
