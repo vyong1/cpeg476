@@ -7,47 +7,48 @@
 using namespace cv;
 using namespace std;
 
-Mat src;
-int thresh = 100;
-RNG rng(12345);
-
-void identify_contours();
+void identify_contours(Mat img);
 
 int main(int argc, char **argv)
 {
     // Load source image and convert it to gray
-    src = imread(argv[1], 1);
+    Mat img = imread(argv[1], 1);
 
     // Create Window
     namedWindow("Source", CV_WINDOW_AUTOSIZE);
-    imshow("Source", src);
+    imshow("Source", img);
 
-    identify_contours();
+    identify_contours(img);
 
     waitKey(0);
     return (0);
 }
 
-void identify_contours()
+void identify_contours(Mat img)
 {
+    int thresh = 100;
     Mat canny_output;
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
 
+    Scalar contourColor = Scalar(255, 0, 0); // RGB
+
     // Detect edges using canny
-    Canny(src, canny_output, thresh, thresh * 2, 3);
+    Canny(img, canny_output, thresh, thresh * 2, 3);
     // Find contours
-    findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+    findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
 
     // Draw contours
-    Mat drawing = Mat::zeros(canny_output.size(), CV_8UC3);
+    Mat drawing = img.clone();
     for (unsigned int i = 0; i < contours.size(); i++)
     {
-        Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-        drawContours(drawing, contours, i, color, 2, 8, hierarchy, 0, Point());
+        drawContours(drawing, contours, i, contourColor, 2, 8, hierarchy, 0, Point());
     }
 
     // Show in a window
     namedWindow("Contours", CV_WINDOW_AUTOSIZE);
     imshow("Contours", drawing);
+
+    // Write output to image
+    imwrite("myimage.png", drawing);
 }
