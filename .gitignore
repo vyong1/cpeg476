@@ -4,5 +4,4 @@
 *.gdbscript
 .vscode
 *.o
-projects/shape-finder/contours
 projects/shape-finder/myimage.png
